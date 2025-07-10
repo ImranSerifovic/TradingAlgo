@@ -87,7 +87,7 @@ try:
     for option in top_sizes:
         if "S" in option.text:
             option.click()
-            print("Selected top size M.")
+            print("Selected top size S.")
             break
 except:
     print("No top sizes found.")
@@ -100,7 +100,7 @@ try:
     for option in bottom_sizes:
         if "S" in option.text:
             option.click()
-            print("Selected bottom size M.")
+            print("Selected bottom size S.")
             break
 except:
     print("No bottom sizes found.")
@@ -154,7 +154,7 @@ try:
     card_number_input = WebDriverWait(driver, 10).until(
         EC.element_to_be_clickable((By.NAME, "number"))
     )
-    card_number_input.send_keys("4242424242424242")
+    card_number_input.send_keys("4179030773922673")
     driver.switch_to.default_content()
 
     # EXPIRY DATE
@@ -164,7 +164,7 @@ try:
     driver.switch_to.frame(exp_frame)
     exp_input = WebDriverWait(driver, 10).until(
         EC.element_to_be_clickable((By.NAME, "expiry")))
-    for char in "1230":
+    for char in "0729":
         exp_input.send_keys(char)
         time.sleep(0.1)
     driver.switch_to.default_content()
@@ -176,7 +176,7 @@ try:
     driver.switch_to.frame(cvc_frame)
     cvc_input = WebDriverWait(driver, 10).until(
         EC.element_to_be_clickable((By.NAME, "verification_value")))
-    cvc_input.send_keys("123")
+    cvc_input.send_keys("279")
     driver.switch_to.default_content()
 
     print("Filled payment form.")

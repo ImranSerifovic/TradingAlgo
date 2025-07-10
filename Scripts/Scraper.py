@@ -20,6 +20,7 @@ import sys
 import os
 import openai
 from openai import OpenAI
+from tqdm import tqdm
 
 # -- OpenAI Configuration --
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))  # Make sure to set this env var
@@ -145,60 +146,76 @@ def summarize_text(text, max_tokens=200):
         print(f"OpenAI summarization error: {e}")
         return ""
 
-def main(date=None, output_csv="flagged_filings.csv"):
-    # Determine date to process and fetch index_text
-    if date:
-        date_str = date
+def main(date_source=None, output_csv="flagged_filings.csv"):
+    """
+    Process either a single date (YYYYMMDD) or a CSV/XLSX file listing dates in a column 'date'.
+    Outputs all matching filings across all dates to output_csv.
+    """
+    # If no date_source provided, but a default date file exists, use it
+    default_file = os.path.join(os.path.dirname(__file__), "selected_dates.xlsx")
+    if date_source is None and os.path.isfile(default_file):
+        date_source = default_file
+    # Load date list
+    date_list = []
+    if date_source and os.path.isfile(date_source):
+        # Read CSV or Excel file
+        if date_source.lower().endswith((".csv", ".txt")):
+            df_dates = pd.read_csv(date_source, parse_dates=["date"])
+        else:
+            df_dates = pd.read_excel(date_source, parse_dates=["date"])
+        # Format dates as YYYYMMDD strings
+        date_list = df_dates["date"].dt.strftime("%Y%m%d").tolist()
+    elif date_source:
+        date_list = [date_source]
+    else:
+        # Fallback to last available master index within past 7 days
+        for d in range(1, 8):
+            candidate = (datetime.now() - timedelta(days=d)).strftime("%Y%m%d")
+            try:
+                fetch_master_index(candidate)
+                date_list = [candidate]
+                print(f"Using master index for {candidate}")
+                break
+            except requests.exceptions.HTTPError:
+                continue
+        if not date_list:
+            print("Error: Could not fetch a master index in the past 7 days.")
+            sys.exit(1)
+
+    all_results = []
+    for date_str in tqdm(date_list, desc="Processing Dates", colour="green"):
         try:
             index_text = fetch_master_index(date_str)
         except requests.exceptions.HTTPError as e:
             print(f"Error fetching index for {date_str}: {e}")
-            sys.exit(1)
-    else:
-        index_text = None
-        for d in range(1, 8):
-            candidate = (datetime.now() - timedelta(days=d)).strftime("%Y%m%d")
+            continue
+
+        entries = parse_index(index_text)
+        print(f"Found {len(entries)} filings matching forms {FORM_TYPES} on {date_str}.")
+        _, cik_to_ticker = get_cik_ticker_map()
+
+        for entry in tqdm(entries, desc=f"Processing filings on {date_str}", leave=False, colour="cyan"):
+            url = f"https://www.sec.gov/Archives/{entry['filename']}"
             try:
-                index_text = fetch_master_index(candidate)
-                date_str = candidate
-                print(f"Using master index for {date_str}")
-                break
-            except requests.exceptions.HTTPError:
-                continue
-        if index_text is None:
-            print("Error: Could not fetch a master index in the past 7 days.")
-            sys.exit(1)
+                text = fetch_document_text(url)
+                matched = find_keywords(text, KEYWORDS)
+                if matched:
+                    ticker = cik_to_ticker.get(entry["cik"], "")
+                    summary = summarize_text(text)
+                    all_results.append({
+                        "ticker": ticker,
+                        "cik": entry["cik"],
+                        "form": entry["form"],
+                        "filingDate": entry["filingDate"],
+                        "url": url,
+                        "keywords": ";".join(matched),
+                        "summary": summary
+                    })
+                time.sleep(0.2)
+            except Exception as e:
+                print(f"Error fetching {url}: {e}")
 
-    entries = parse_index(index_text)
-    print(f"Found {len(entries)} filings matching forms {FORM_TYPES} on {date_str}.")
-
-    _, cik_to_ticker = get_cik_ticker_map()
-    results = []
-
-    for entry in entries:
-        url = f"https://www.sec.gov/Archives/{entry['filename']}"
-        try:
-            text = fetch_document_text(url)
-            matched = find_keywords(text, KEYWORDS)
-            if matched:
-                ticker = cik_to_ticker.get(entry["cik"], "")
-                # Generate a brief AI summary of the filing
-                summary = summarize_text(text)
-                results.append({
-                    "ticker": ticker,
-                    "cik": entry["cik"],
-                    "form": entry["form"],
-                    "filingDate": entry["filingDate"],
-                    "url": url,
-                    "keywords": ";".join(matched),
-                    "summary": summary
-                })
-            # Respect SEC rate limits (~5 req/sec)
-            time.sleep(0.2)
-        except Exception as e:
-            print(f"Error fetching {url}: {e}")
-
-    df = pd.DataFrame(results)
+    df = pd.DataFrame(all_results)
     df.to_csv(output_csv, index=False)
     print(f"Saved {len(df)} flagged filings to {output_csv}")
 
