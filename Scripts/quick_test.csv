@@ -1,0 +1,35 @@
+ticker,form,filingDate,keywords,summary,volatility_before,summary_length,has_numbers,num_keywords_matched,market_cap,sector
+MBNKO,DEF 14A,2025-04-30,reverse stock split;public offering,No material events or catalysts disclosed.,,42,False,2,,Financial Services
+NXPLW,DEF 14A,2025-04-30,public offering,No material events or catalysts disclosed.,,42,False,1,,Technology
+RCKTW,DEF 14A,2025-04-30,private placement;public offering,No material events or catalysts disclosed.,,42,False,2,,
+KPHMW,DEF 14A,2025-04-30,public offering,No material events or catalysts disclosed.,,42,False,1,,
+NXGLW,DEF 14A,2025-04-30,reverse stock split;public offering,No material events or catalysts disclosed.,,42,False,2,,Healthcare
+HSDTW,8-K,2025-04-30,reverse stock split,No material events or catalysts disclosed.,,42,False,1,,
+BSMLP,DEF 14A,2025-04-30,public offering,No material events or catalysts disclosed.,,42,False,1,,
+FSREM,8-K,2025-04-30,entered into agreement,No material events or catalysts disclosed.,,42,False,1,,
+STSSW,8-K,2025-04-30,reverse stock split,No material events or catalysts disclosed.,,42,False,1,,Healthcare
+AEVAW,DEF 14A,2025-04-30,reverse stock split,No material events or catalysts disclosed.,,42,False,1,,Technology
+FOUR-PA,8-K,2025-04-30,private placement;public offering;debt financing,No material events or catalysts disclosed.,,42,False,3,,Technology
+FOUR-PA,8-K,2025-04-30,private placement;public offering;debt financing,No material events or catalysts disclosed.,,42,False,3,,Technology
+FOUR-PA,DEF 14A,2025-04-30,public offering,No material events or catalysts disclosed.,,42,False,1,,Technology
+TALKW,DEF 14A,2025-04-30,public offering,No material events or catalysts disclosed.,,42,False,1,,
+BFLY-WT,DEF 14A,2025-04-30,private placement,No material events or catalysts disclosed.,,42,False,1,,
+FFAIW,8-K,2025-04-30,reverse stock split,No material events or catalysts disclosed.,,42,False,1,,Consumer Cyclical
+WGSWW,DEF 14A,2025-04-30,private placement;reverse stock split;public offering,No material events or catalysts disclosed.,,42,False,3,,Healthcare
+ACHR-WT,DEF 14A,2025-04-30,private placement;public offering,No material events or catalysts disclosed.,,42,False,2,,
+BETRW,DEF 14A,2025-04-30,entered into agreement;reverse stock split;public offering,No material events or catalysts disclosed.,,42,False,3,,Financial Services
+NVVEW,8-K,2025-04-30,securities purchase agreement;reverse stock split,"1. Nuvve Holding Corp. entered into a material definitive agreement resulting in the creation of a direct financial obligation and conducted unregistered sales of equity securities.  
+2. No other material events or catalysts were disclosed.",,240,True,2,,Consumer Cyclical
+PETWW,DEF 14A,2025-04-30,private placement;reverse stock split;public offering,No material events or catalysts disclosed.,,42,False,3,,Technology
+KORGW,DEF 14A,2025-04-30,private placement;reverse stock split,No material events or catalysts disclosed.,,42,False,2,,Communication Services
+BFRIW,DEF 14A,2025-04-30,private placement;securities purchase agreement;reverse stock split;public offering,No material events or catalysts disclosed.,,42,False,4,,Healthcare
+TVGNW,DEF 14A,2025-04-30,private placement;securities purchase agreement,No material events or catalysts disclosed.,,42,False,2,,Healthcare
+CLRWF,8-K,2025-04-30,public offering,No material events or catalysts disclosed.,,42,False,1,,
+USGOW,DEF 14A,2025-04-30,public offering,No material events or catalysts disclosed.,,42,False,1,,
+USARW,8-K,2025-04-30,private placement;securities purchase agreement;reverse stock split;public offering,"1. USA Rare Earth, Inc. entered into a material definitive agreement and completed unregistered sales of equity securities.  
+2. No other material events or catalysts were disclosed.",,182,True,4,,Basic Materials
+IPCXR,4,2025-04-30,private placement;public offering,No material events or catalysts disclosed.,,42,False,2,,
+WSBK,8-K,2025-04-30,public offering,No material events or catalysts disclosed.,,42,False,1,87597376.0,Financial Services
+LAWIL,DEF 14A,2025-04-30,debt financing,No material events or catalysts disclosed.,,42,False,1,,
+WINTW,8-K,2025-04-30,private placement;securities purchase agreement;reverse stock split;public offering,"1. Windtree Therapeutics, Inc. entered into a material definitive agreement involving the unregistered sale of equity securities.  
+2. No other material events or catalysts were disclosed.",,188,True,4,,Healthcare
