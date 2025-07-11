@@ -86,7 +86,7 @@ if __name__ == "__main__":
     )
     p.add_argument(
         "--input", "-i",
-        default="flagged_filings.csv",
+        default="master_flagged_filings.csv",
         help="Path to input CSV from Scraper.py"
     )
     p.add_argument(
